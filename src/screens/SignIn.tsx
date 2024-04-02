@@ -1,5 +1,6 @@
 import { Center, Heading, Image, Text, VStack } from 'native-base'
 
+import { Button } from '@components/Button'
 import { Input } from '@components/Input'
 
 import LogoSvg from '@assets/logo.svg'
@@ -35,7 +36,12 @@ export function SignIn() {
           placeholder="password"
           secureTextEntry
         />
+
+        <Button title="Access" />
       </Center>
+
+
+      <Button title="Create account" variant="outline" />
     </VStack>
   )
 }
