@@ -1,11 +1,13 @@
 import { Center, Heading, Image, Text, VStack } from 'native-base'
 
+import { Input } from '@components/Input'
+
 import LogoSvg from '@assets/logo.svg'
 import BackgroundImg from '@assets/background.png'
 
 export function SignIn() {
   return (
-    <VStack flex={1} bg="gray.700">
+    <VStack flex={1} bg="gray.700" px={10}>
       <Image 
         source={BackgroundImg}
         alt="people training"
@@ -23,6 +25,16 @@ export function SignIn() {
         <Heading color="gray.100" fontSize="xl" mb={6} fontFamily="heading">
           Access your account
         </Heading>
+
+        <Input
+          placeholder="e-mail"
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
+        <Input
+          placeholder="password"
+          secureTextEntry
+        />
       </Center>
     </VStack>
   )
