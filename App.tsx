@@ -3,6 +3,9 @@ import { NativeBaseProvider } from 'native-base'
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto'
 
 import { THEME } from 'src/theme'
+
+import { SignIn } from '@screens/SignIn'
+
 import { Loading } from '@components/Loading'
 
 export default function App() {
@@ -15,7 +18,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <View/> : <Loading />}
+      {fontsLoaded ? <SignIn/> : <Loading />}
     </NativeBaseProvider>
   )
 }
