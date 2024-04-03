@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native'
 import { Center, Heading, Image, ScrollView, Text, VStack } from 'native-base'
 
 import { Button } from '@components/Button'
@@ -7,6 +8,12 @@ import LogoSvg from '@assets/logo.svg'
 import BackgroundImg from '@assets/background.png'
 
 export function SignUp() {
+  const navigation = useNavigation()
+
+  function handleGoBack() {
+    navigation.goBack()
+  }
+
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
       <VStack flex={1} px={10}>
@@ -48,6 +55,7 @@ export function SignUp() {
           title="Back to login"
           variant="outline"
           mt={24}
+          onPress={handleGoBack}
         />
       </VStack>
     </ScrollView>
