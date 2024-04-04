@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Center, Heading, ScrollView, Skeleton, Text, VStack } from 'native-base'
+import * as ImagePicker from 'expo-image-picker'
 
 import { Button } from '@components/Button'
 import { Input } from '@components/Input'
@@ -11,6 +12,32 @@ const PHOTO_SIZE = 33
 
 export function Profile() {
   const [photoIsLoading, setPhotoIsLoading] = useState(false)
+  const [userPhoto, setUserPhoto] = useState('https://github.com/lucasroseti.png')
+
+  async function handleUserPhotoSelect() {
+    try {
+      setPhotoIsLoading(true)
+
+      const photoSelected = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 1,
+        aspect: [4, 4],
+        allowsEditing: true
+      })
+  
+      if (photoSelected.canceled) {
+        return
+      }
+
+      if (photoSelected.assets[0].uri) {
+        setUserPhoto(photoSelected.assets[0].uri)
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setPhotoIsLoading(false)
+    }
+  }
 
   return (
     <VStack flex={1}>
@@ -28,13 +55,13 @@ export function Profile() {
             />
           ) : (
             <UserPhoto 
-              source={{ uri: 'https://github.com/lucasroseti.png' }}
+              source={{ uri: userPhoto }}
               alt="user image"
               size={PHOTO_SIZE}
             />
           )}
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleUserPhotoSelect}>
             <Text color="green.500" fontWeight="bold" fontSize="md" mt={2} mb={8}>Update photo</Text>
           </TouchableOpacity>
 
