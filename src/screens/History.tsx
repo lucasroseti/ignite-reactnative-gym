@@ -7,27 +7,19 @@ import { AppError } from '@utils/AppError'
 
 import { ScreenHeader } from '@components/ScreenHeader'
 import { HistoryCard } from '@components/HistoryCard'
+import { HistoryByDayDTO } from '@dtos/HistoryByDayDTO'
 
 export function History() {
   const [isLoading, setIsLoading] = useState(true)
-  const [exercises, setExercises] = useState([
-    {
-      title: '26.08.22',
-      data: ['One arm dumbbell row','Pull-up', ]
-    },
-    {
-      title: '27.08.22',
-      data: ['Pull-up', ]
-    }
-  ])
+  const [exercises, setExercises] = useState<HistoryByDayDTO[]>([])
 
   const toast = useToast()
 
   async function fetchHistory() {
     try {
       setIsLoading(true)
-      const response = await api.get('/history')
-      console.log(response.data)
+      const { data } = await api.get('/history')
+      setExercises(data)
     } catch (error) {
       const isAppError = error instanceof AppError
       const title = isAppError ? error.message : 'Unable to load history'
