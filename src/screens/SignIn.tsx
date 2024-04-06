@@ -1,11 +1,12 @@
 import { Controller, useForm } from 'react-hook-form'
 import { useNavigation } from '@react-navigation/native'
-import { Center, Heading, Image, ScrollView, Text, VStack } from 'native-base'
+import { Center, Heading, Image, ScrollView, Text, VStack, useToast } from 'native-base'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import { useAuth } from '@hooks/useAuth'
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes'
+import { AppError } from '@utils/AppError'
 
 import { Button } from '@components/Button'
 import { Input } from '@components/Input'
@@ -25,6 +26,7 @@ const signUpSchema = yup.object({
 
 export function SignIn() {
   const navigation = useNavigation<AuthNavigatorRoutesProps>()
+  const toast = useToast()
 
   const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
     resolver: yupResolver(signUpSchema),
@@ -36,8 +38,19 @@ export function SignIn() {
     navigation.navigate('signUp')
   }
 
-  function handleSignIn({ email, password }: FormDataProps){
-    signIn(email, password)
+  async function handleSignIn({ email, password }: FormDataProps){
+    try {
+      await signIn(email, password)
+    } catch (error) {
+      const isAppError = error instanceof AppError
+      const title = isAppError ? error.message : 'Unable to access. Try again later'
+
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: isAppError ? 'yellow.600' : 'red.500'
+      })
+    }
   }
 
   return (
