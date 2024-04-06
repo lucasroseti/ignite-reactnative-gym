@@ -1,3 +1,4 @@
-const USER_STORAGE = '@gymignite:user'
+const AUTH_STORAGE = '@ignitegym:token'
+const USER_STORAGE = '@ignitegym:user'
 
-export { USER_STORAGE }
+export { AUTH_STORAGE, USER_STORAGE }
