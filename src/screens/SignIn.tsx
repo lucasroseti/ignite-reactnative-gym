@@ -4,6 +4,7 @@ import { Center, Heading, Image, ScrollView, Text, VStack } from 'native-base'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
+import { useAuth } from '@hooks/useAuth'
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes'
 
 import { Button } from '@components/Button'
@@ -29,12 +30,14 @@ export function SignIn() {
     resolver: yupResolver(signUpSchema),
   })
 
+  const { signIn } = useAuth()
+
   function handleNewAccount() {
     navigation.navigate('signUp')
   }
 
   function handleSignIn({ email, password }: FormDataProps){
-    console.log(email, password)
+    signIn(email, password)
   }
 
   return (
