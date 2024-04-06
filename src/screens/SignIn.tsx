@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useNavigation } from '@react-navigation/native'
 import { Center, Heading, Image, ScrollView, Text, VStack, useToast } from 'native-base'
@@ -25,6 +26,7 @@ const signUpSchema = yup.object({
 })
 
 export function SignIn() {
+  const [isLoading, setIsLoading] = useState(false)
   const navigation = useNavigation<AuthNavigatorRoutesProps>()
   const toast = useToast()
 
@@ -40,10 +42,13 @@ export function SignIn() {
 
   async function handleSignIn({ email, password }: FormDataProps){
     try {
+      setIsLoading(true)
       await signIn(email, password)
     } catch (error) {
       const isAppError = error instanceof AppError
       const title = isAppError ? error.message : 'Unable to access. Try again later'
+
+      setIsLoading(false)
 
       toast.show({
         title,
@@ -103,7 +108,11 @@ export function SignIn() {
             )}
           />
   
-          <Button title="Access" onPress={handleSubmit(handleSignIn)} />
+          <Button
+            title="Access"
+            onPress={handleSubmit(handleSignIn)}
+            isLoading={isLoading}
+          />
         </Center>
   
         <Center mt={24}>
