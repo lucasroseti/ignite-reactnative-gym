@@ -5,8 +5,10 @@ import { Heading, SectionList, Text, VStack, useToast } from 'native-base'
 import { api } from '@services/api'
 import { AppError } from '@utils/AppError'
 
-import { ScreenHeader } from '@components/ScreenHeader'
 import { HistoryCard } from '@components/HistoryCard'
+import { Loading } from '@components/Loading'
+import { ScreenHeader } from '@components/ScreenHeader'
+
 import { HistoryByDayDTO } from '@dtos/HistoryByDayDTO'
 
 export function History() {
@@ -42,25 +44,27 @@ export function History() {
     <VStack flex={1}>
       <ScreenHeader title="Exercise history" />
 
-      <SectionList
-        sections={exercises}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => <HistoryCard data={item} />}
-        renderSectionHeader={({ section }) => (
-          <Heading color="gray.200" fontSize="md" fontFamily="heading" mt={10} mb={3}>
-            {section.title}
-          </Heading>
-        )}
-        ListEmptyComponent={() => (
-          <Text color="gray.100" textAlign="center">
-            There are no registered exercises yet.{'\n'}
-            Let's do it today?
-          </Text>
-        )}
-        contentContainerStyle={exercises.length === 0 && { flex: 1, justifyContent: 'center' }}
-        showsVerticalScrollIndicator={false}
-        px={8}
-      />
+      {isLoading ? <Loading /> : (
+        <SectionList
+          sections={exercises}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => <HistoryCard data={item} />}
+          renderSectionHeader={({ section }) => (
+            <Heading color="gray.200" fontSize="md" fontFamily="heading" mt={10} mb={3}>
+              {section.title}
+            </Heading>
+          )}
+          ListEmptyComponent={() => (
+            <Text color="gray.100" textAlign="center">
+              There are no registered exercises yet.{'\n'}
+              Let's do it today?
+            </Text>
+          )}
+          contentContainerStyle={exercises.length === 0 && { flex: 1, justifyContent: 'center' }}
+          showsVerticalScrollIndicator={false}
+          px={8}
+        />
+      )}
     </VStack>
   )
 }
